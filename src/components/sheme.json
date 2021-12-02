@@ -1,0 +1,43 @@
+{
+    "title": "Mysql tap config",
+    "type": "object",
+    "properties": {
+      "stream": {
+        "title": "Stream",
+        "type": "string"
+      },
+      "key_properties": {
+        "title": "Key Properties",
+        "type": "array",
+        "items": {}
+      },
+      "bookmark_properties": {
+        "title": "Bookmark Properties",
+        "type": "array",
+        "items": {}
+      },
+      "start_state": {
+        "title": "Start State",
+        "type": "object"
+      },
+      "query": {
+        "title": "Query",
+        "type": "string"
+      },
+      "connection_string": {
+        "title": "Connection String",
+        "type": "string"
+      },
+      "schema":{
+          "title": "Schema",
+          "$ref": "https://json-schema.org/draft/2020-12/schema"
+      }
+    },
+    "required": [
+      "stream",
+      "schema",
+      "key_properties",
+      "query",
+      "connection_string"
+    ]
+  }
