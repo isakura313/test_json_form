@@ -1,0 +1,8 @@
+
+{ 
+    "Stream": "10", 
+    "Key Properties": "10", 
+    "Bookmark Properties": "10", 
+    "Start State": "30", 
+    "Query": "SELECT posts.id, title, description, content, date, first_name, last_name, email from posts JOIN authors ON posts.author_id=authors.id WHERE posts.id > {id} LIMIT 15", 
+    "Connection String": "mysql+pymysql://root:123@127.0.0.1/test?charset=utf8mb4" }
