@@ -1,16 +1,23 @@
 <template>
-  <FormSchema :schema="schema" v-model="model" @submit.prevent="submit">
-    <button type="submit">Subscribe</button>
-  </FormSchema>
+  <div class="panel panel-default">
+    {{schema}}
+    <div class="panel-heading">Form</div>
+    <div class="panel-body" v-if="loading">
+      <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
+    </div>
+  </div>
 </template>
 
 
 
-
 <script>
+// import $RefParser from "@apidevtools/json-schema-ref-parser";
+import JsonRefs from 'json-refs'
 import $RefParser from "@apidevtools/json-schema-ref-parser";
 
-  import FormSchema from '@formschema/native'
+console.log(JsonRefs);
+// import VueFormGenerator from "vue-form-generator";
+  import "vue-form-generator/dist/vfg.css";  // optional full css additions
   import schema from './sheme.json'
 
   // console.log(schema);
@@ -22,9 +29,26 @@ export default {
   },
     data: () => ({
       schema: {},
-      model: {}
+      loading: false,
+      model: {
+            "id": 1,
+            "first_name": 'Pavel',
+            "last_name": "yakupov",
+            "email": 'isa@k.com',
+            "title": 'asd',
+            "desctription": 'asdd',
+            "content": 'asda',
+            "date": 'asd'
+      },
+         formOptions: {
+            validateAfterLoad: false,
+            validateAfterChanged: false
+        }
     }),
-  created () {
+  async mounted () {
+    console.log(JsonRefs.findRefs(schema))
+    console.log(await JsonRefs.resolveRefs(schema))
+    //  console.log(JsonRefs.decodePath(schema))
 $RefParser.dereference(schema, (err, schema) => {
   if (err) {
     console.error(err);
@@ -32,10 +56,12 @@ $RefParser.dereference(schema, (err, schema) => {
   else {
     // `schema` is just a normal JavaScript object that contains your entire JSON Schema,
     // including referenced files, combined into a single object
-    this.schema = schema
-    console.log(this.schema)
+    console.log(schema);
+    this.schema = schema;
+    this.loading = true;
   }
 })
+// })
   },
     methods: {
       submit () {
@@ -43,7 +69,7 @@ $RefParser.dereference(schema, (err, schema) => {
         // You can submit your model to the server here
       }
     },
-   components: { FormSchema }
+  //  components: { FormSchema }
 }
 </script>
 
